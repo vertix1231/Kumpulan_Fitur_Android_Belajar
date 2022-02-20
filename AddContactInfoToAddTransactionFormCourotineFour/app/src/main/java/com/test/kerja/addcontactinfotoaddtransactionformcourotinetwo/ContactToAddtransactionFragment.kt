@@ -2,9 +2,14 @@ package com.test.kerja.addcontactinfotoaddtransactionformcourotinetwo
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.widget.EditText
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.lifecycle.Observer
@@ -20,6 +25,8 @@ class ContactToAddtransactionFragment : BottomSheetDialogFragment(),View.OnClick
     private lateinit var viewModelSearchContact : MainViewModelSearchContact
     private var mListener: ItemClickListener? = null
     var mListenerContact:ItemContactClickListener? = null
+    private lateinit var rtl_in: Animation
+    private lateinit var ltr_in: Animation
     private var _binding: FragmentContactToAddtransactionBinding?=null
     private val binding get() = _binding!!
     override fun onCreateView(
@@ -31,6 +38,7 @@ class ContactToAddtransactionFragment : BottomSheetDialogFragment(),View.OnClick
         adapter.setItemContactClickListener{
             mListenerContact?.onItemContactClick(it)
         }
+
         return binding.root
     }
     fun setItemContactClickListener(itemContactClickListener: ItemContactClickListener){
@@ -42,6 +50,7 @@ class ContactToAddtransactionFragment : BottomSheetDialogFragment(),View.OnClick
             MyViewModelSearchContactFactory(requireActivity().application)
         viewModelSearchContact = ViewModelProvider(this, myViewModelFactory)[MainViewModelSearchContact::class.java]
         readContact()
+
 
     }
     private fun readContact() {
@@ -59,6 +68,35 @@ class ContactToAddtransactionFragment : BottomSheetDialogFragment(),View.OnClick
                 }
             }
         })
+        rtl_in = AnimationUtils.makeInAnimation(
+            context,
+            false
+        )
+        ltr_in = AnimationUtils.makeInAnimation(
+            context,
+            true
+        )
+//        binding.searchViewContact.addTextChangedListener(object :TextWatcher{
+//            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+//
+//            }
+//
+//            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+//                if (p0!=null){
+//                    viewModelSearchContact.getUsers(p0.toString())
+//                    viewModelSearchContact.userssearch.observe(viewLifecycleOwner,{
+//                        adapter.submitList(it)
+//                    })
+//                }
+//            }
+//
+//            override fun afterTextChanged(p0: Editable?) {
+//
+//            }
+//
+//        })
+
+
         binding.searchViewContact.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(p0: String?): Boolean {
 
