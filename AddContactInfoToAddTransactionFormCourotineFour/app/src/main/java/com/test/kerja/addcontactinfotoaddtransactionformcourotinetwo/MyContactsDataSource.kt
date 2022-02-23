@@ -71,7 +71,7 @@ class MyContactsDataSource(private val contentResolver: ContentResolver) {
             }
             var sortHasmapContact = resulthashmap.toSortedMap()
             for (datakeycontactmap in sortHasmapContact.keys){
-                println("search data tambah hasmap contact dengan put adalah \n: ${sortHasmapContact[datakeycontactmap]} \n dengan key $datakeycontactmap \n --------------------------------------------------------------------------------")
+                println("search data tambah hasmap contact dengan put adalah : ${sortHasmapContact[datakeycontactmap]}  dengan key $datakeycontactmap \n --------------------------------------------------------------------------------")
                 result.add(sortHasmapContact[datakeycontactmap]!!)
 
             }

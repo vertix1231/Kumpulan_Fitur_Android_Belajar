@@ -25,6 +25,7 @@ class ContactToAddtransactionFragment : BottomSheetDialogFragment(),View.OnClick
     private lateinit var viewModelSearchContact : MainViewModelSearchContact
     private var mListener: ItemClickListener? = null
     var mListenerContact:ItemContactClickListener? = null
+    private lateinit var  ltr_out: Animation
     private lateinit var rtl_in: Animation
     private lateinit var ltr_in: Animation
     private var _binding: FragmentContactToAddtransactionBinding?=null
@@ -68,6 +69,10 @@ class ContactToAddtransactionFragment : BottomSheetDialogFragment(),View.OnClick
                 }
             }
         })
+        ltr_out = AnimationUtils.makeOutAnimation(
+            context,
+            true
+        )
         rtl_in = AnimationUtils.makeInAnimation(
             context,
             false
@@ -76,6 +81,25 @@ class ContactToAddtransactionFragment : BottomSheetDialogFragment(),View.OnClick
             context,
             true
         )
+        rtl_in.duration = 700
+        binding.imgClickableSearchViewContact.setOnClickListener {
+            binding.imgClickableSearchViewContact.visibility = View.GONE
+            binding.searchViewContact.startAnimation(rtl_in)
+            binding.searchViewContact.visibility = View.VISIBLE
+            binding.textViewCariContact.visibility = View.GONE
+            binding.imgClickablebacksearch.visibility = View.VISIBLE
+        }
+        ltr_in.duration = 700
+        ltr_out.duration = 700
+        binding.imgClickablebacksearch.setOnClickListener {
+            binding.imgClickableSearchViewContact.visibility = View.VISIBLE
+            binding.searchViewContact.startAnimation(ltr_out)
+            binding.searchViewContact.visibility = View.GONE
+            binding.textViewCariContact.startAnimation(ltr_in)
+            binding.textViewCariContact.visibility = View.VISIBLE
+            binding.imgClickablebacksearch.visibility = View.GONE
+
+        }
 //        binding.searchViewContact.addTextChangedListener(object :TextWatcher{
 //            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 //
@@ -99,18 +123,20 @@ class ContactToAddtransactionFragment : BottomSheetDialogFragment(),View.OnClick
 
         binding.searchViewContact.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(p0: String?): Boolean {
-
-                return false
-            }
-
-            override fun onQueryTextChange(p0: String?): Boolean {
                 if (p0 != null) {
                     viewModelSearchContact.getUsers(p0)
                     viewModelSearchContact.userssearch.observe(viewLifecycleOwner,{
                         adapter.submitList(it)
                     })
+
+//                    binding.searchViewContact.clearFocus()
                 }
-                return true
+                return false
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+
+                return false
             }
 
         })

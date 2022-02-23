@@ -10,6 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import java.lang.Exception
 
 class MyContactsAdapter : ListAdapter<MyContact, ViewHolder>(DiffCallback()) {
     private var mListenerContact:ItemContactClickListener? = null
@@ -27,7 +28,13 @@ class MyContactsAdapter : ListAdapter<MyContact, ViewHolder>(DiffCallback()) {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
         holder.itemlyout.setOnClickListener{
-            mListenerContact?.onItemContactClick(getItem(position))
+//            mListenerContact?.onItemContactClick(getItem(position))
+            try {
+                mListenerContact?.onItemContactClick(getItem(position))
+            }catch (e:Exception){
+//                Toast.makeText(holder.itemlyout.context,"nama : ${getItem(position).name} \n nomor : ${getItem(position).number}",Toast.LENGTH_LONG).show()
+                Log.d("tag_error","\"nama : ${getItem(position).name} \\n nomor : ${getItem(position).number} dengan tipe error ${e.message}")
+            }
             Toast.makeText(holder.itemlyout.context,"nama : ${getItem(position).name} \n nomor : ${getItem(position).number}",Toast.LENGTH_LONG).show()
             Log.d("tag","data terpilih nama : ${getItem(position).name} nomor : ${getItem(position).number}")
         }
